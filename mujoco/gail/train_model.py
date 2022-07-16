@@ -16,17 +16,17 @@ def train_discrim(discrim, memory, discrim_optim, demonstrations, args):
         learner = discrim(torch.cat([states, actions], dim=1))
         demonstrations = torch.Tensor(demonstrations)
         expert = discrim(demonstrations)
-
+        # BCEloss = ( xi,yi) first is predict, second is target
         discrim_loss = criterion(learner, torch.ones((states.shape[0], 1))) + \
                         criterion(expert, torch.zeros((demonstrations.shape[0], 1)))
-                
+        # in this setting , the discrim for learner is converging to 1 and expert to zeros ?
         discrim_optim.zero_grad()
         discrim_loss.backward()
         discrim_optim.step()
-
+    # expert_acc -> reward < 0.5?
     expert_acc = ((discrim(demonstrations) < 0.5).float()).mean()
     learner_acc = ((discrim(torch.cat([states, actions], dim=1)) > 0.5).float()).mean()
-
+    # learner_acc -> reward > 0.5 ?
     return expert_acc, learner_acc
 
 

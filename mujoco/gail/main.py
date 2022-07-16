@@ -19,7 +19,7 @@ parser.add_argument('--env_name', type=str, default="Hopper-v2",
                     help='name of the environment to run')
 parser.add_argument('--load_model', type=str, default=None, 
                     help='path to load the saved model')
-parser.add_argument('--render', action="store_true", default=False, 
+parser.add_argument('--render', action="store_true", default=False,
                     help='if you dont want to render, set this to False')
 parser.add_argument('--gamma', type=float, default=0.99, 
                     help='discounted factor (default: 0.99)')
@@ -100,14 +100,14 @@ def main():
     episodes = 0
     train_discrim_flag = True
 
-    for iter in range(args.max_iter_num):
+    for iter in range(args.max_iter_num): # max iteration number
         actor.eval(), critic.eval()
         memory = deque()
 
         steps = 0
         scores = []
 
-        while steps < args.total_sample_size: 
+        while steps < args.total_sample_size:  # collection num
             state = env.reset()
             score = 0
 
